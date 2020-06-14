@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'MOBO Chat',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.green,
+        primaryColor: Colors.green[900],
         accentColor: Color(0xFFFEF9EB),
       ),
       home: HomeScreen()
