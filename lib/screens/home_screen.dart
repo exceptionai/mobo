@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobo/components/drawer_fiap_ex.dart';
 import 'package:mobo/widgets/category_selector.dart';
 import 'package:mobo/widgets/favorite_bots.dart';
 import 'package:mobo/widgets/recents_chats.dart';
@@ -13,6 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
+      drawer: DrawerFiapEx(route: '/',),
       appBar: AppBar(
         title: Text(
           'Conversas',
