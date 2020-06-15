@@ -22,6 +22,7 @@ class MessageHistoryModel{
   MessageHistoryModel.fromMap(Map map){
     id = map[idColumn];
     content = map[contentColumn];
+    fromUser = map[fromUserColumn];
   }
 
   Map toMap(){
