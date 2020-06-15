@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobo/screens/chat_screen.dart';
 
 class FavoriteBots extends StatefulWidget {
   @override
@@ -56,24 +57,34 @@ class _FavoriteBotsState extends State<FavoriteBots> {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 35.0, 
-                        backgroundImage: AssetImage(images),
-                      ),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      Text(
-                        favorites[index],
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
+                  child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:(context) => ChatScreen(
+                            user : favorites[index],
+                          ),
                         ),
                       ),
-                    ],
+                      child: Column(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 35.0, 
+                          backgroundImage: AssetImage(images),
+                        ),
+                        SizedBox(
+                          height: 6.0,
+                        ),
+                        Text(
+                          favorites[index],
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
