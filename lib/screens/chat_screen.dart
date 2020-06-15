@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mobo/components/text_composer.dart';
 import 'package:mobo/models/message_history_model.dart';
-import 'package:mobo/repository/db_connection.dart';
 import 'package:mobo/repository/message_history_repository.dart';
 
 class ChatScreen extends StatefulWidget {

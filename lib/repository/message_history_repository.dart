@@ -13,10 +13,11 @@ class MessageHistoryRepository{
   Future<List<MessageHistoryModel>> getAllMessageHistory() async {
     Database db = await dbConnection.db;
     List listMap = await db.rawQuery("SELECT * FROM $table");
-    List <MessageHistoryModel> listModel = List();
+    List<MessageHistoryModel> listModel = List();
     for (Map m in listMap){
       listModel.add(MessageHistoryModel.fromMap(m));
     }
+    await Future.delayed(Duration(milliseconds: 500));
     return listModel;
   }
 

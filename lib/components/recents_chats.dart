@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobo/components/circular_progress_indicator_ex.dart';
+import 'package:mobo/models/bot_model.dart';
+import 'package:mobo/repository/message_history_repository.dart';
 
 class RecentsChats extends StatefulWidget {
   @override
@@ -6,9 +9,25 @@ class RecentsChats extends StatefulWidget {
 }
 
 class _RecentsChatsState extends State<RecentsChats> {
-  final List<String> chats = ['Alisson', 'Gabriel', 'Vanessa', 'Gustavo', 'Felipe', 'João'];
-  String images = 'assets/images/avatar.jpg';
+  List<BotModel> bots = [];
+  bool isLoading = true;
   bool unread = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getBots();
+  }
+
+  void getBots() async{
+    var messageHistory = await MessageHistoryRepository().getAllMessageHistory();
+    var mobo = BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png', messageHistory: messageHistory); 
+    setState(() {
+      bots = [mobo];
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -25,10 +44,10 @@ class _RecentsChatsState extends State<RecentsChats> {
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
           ),
-          child: ListView.builder(
-            itemCount: chats.length,
+          child: isLoading ? CircularProgressIndicatorEx() : ListView.builder(
+            itemCount: bots.length,
             itemBuilder: (BuildContext context, int index) {
-              final chat = chats[index];
+              final bot = bots[index];
               return InkWell(
                 onTap: (){
                   Navigator.of(context).pushNamed('/chat');
@@ -50,16 +69,17 @@ class _RecentsChatsState extends State<RecentsChats> {
                         children: <Widget>[
                           CircleAvatar(
                             radius: 35.0,
-                            backgroundImage: AssetImage(images),
+                            backgroundColor: const Color(0xffe4e4e4),
+                            backgroundImage: AssetImage(bot.pictureUrl),
                           ),
                           SizedBox(width: 10.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                chat,
+                                bot.name,
                                 style: TextStyle(
-                                  color: Colors.grey, 
+                                  color: Color(0xff42282b), 
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -68,7 +88,7 @@ class _RecentsChatsState extends State<RecentsChats> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: Text(
-                                  'Olá, tudo bem com você?',
+                                  bot.messageHistory.last.content,
                                   style: TextStyle(
                                     color: Colors.blueGrey, 
                                     fontSize: 15.0,
@@ -81,37 +101,19 @@ class _RecentsChatsState extends State<RecentsChats> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: <Widget>[
-                          Text(
-                            '03:15', // Quero dormir .zZ .zZ
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 5.0,),
-                          unread ? Container(
-                            width: 40.0,
-                            height: 20.0,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Novo',
-                              style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            ),
-                          )
-                          : Text(''),
-                        ],
-                      )
+                      // Column(
+                      //   children: <Widget>[
+                      //     Text(
+                      //       '03:15', // Quero dormir .zZ .zZ
+                      //       style: TextStyle(
+                      //         color: Colors.grey,
+                      //         fontSize: 15.0,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                          
+                      //   ],
+                      // )
                     ],
                   ),
                 ),

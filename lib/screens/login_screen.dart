@@ -80,7 +80,9 @@ class LoginScreenState extends State<LoginScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 SizedBox(height: 100,),
-                                Image.asset('assets/images/exceptionlogo.png',width: 100,),
+                                Image.asset('assets/images/mobologowhite.png',width: 300,),
+                                SizedBox(height: 25,),
+                                Image.asset('assets/images/exceptionlogo(3).png',width: 110,),
                                 SizedBox(height: 70,),
                                 
 

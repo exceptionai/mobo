@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'MOBO',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.green[900],
+        primaryColor: const Color(0xff239b55),
         accentColor: const Color(0xff151819),
       ),
       onGenerateRoute: (RouteSettings settings){
