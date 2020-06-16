@@ -9,6 +9,8 @@ class MessageHistoryRepository{
   final String idColumn = MessageHistoryModel.idColumn;
   final String contentColumn = MessageHistoryModel.contentColumn;
   final String fromUserColumn = MessageHistoryModel.fromUserColumn;
+  final String favoriteColumn = MessageHistoryModel.favoriteColumn;
+  final String registerHourColumn = MessageHistoryModel.registerHourColumn;
 
   Future<List<MessageHistoryModel>> getAllMessageHistory() async {
     Database db = await dbConnection.db;
@@ -30,7 +32,7 @@ class MessageHistoryRepository{
     Database db = await dbConnection.db;
     List<Map> maps = await db.query(
       table,
-      columns: [idColumn,contentColumn,fromUserColumn],
+      columns: [idColumn,contentColumn,fromUserColumn,favoriteColumn,registerHourColumn],
       whereArgs: [id]);
       if(maps.length > 0){
         return MessageHistoryModel.fromMap(maps.first);
@@ -39,12 +41,12 @@ class MessageHistoryRepository{
       }
   }
 
-  Future<int> deleteRoommate(int id) async {
+  Future<int> deleteMessageHistory(int id) async {
     Database db = await dbConnection.db;
     return await db.delete(table, where: "$idColumn = ?", whereArgs: [id]);
   }
 
-  Future<int> updateRoommate(MessageHistoryModel model) async {
+  Future<int> updateMessageHistory(MessageHistoryModel model) async {
     Database db = await dbConnection.db;
     return await db.update(table,
         model.toMap(),
