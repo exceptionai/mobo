@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:mobo/models/bot_model.dart';
+import 'package:mobo/repository/bot_repository.dart';
 import 'package:mobo/repository/message_history_repository.dart';
 
 class RecentsChats extends StatefulWidget {
@@ -21,10 +22,13 @@ class _RecentsChatsState extends State<RecentsChats> {
 
   void getBots() async{
     var messageHistory = await MessageHistoryRepository().getAllMessageHistory();
-    var mobo = BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png', messageHistory: messageHistory); 
+    var botsAux = await BotRepository().getAllBots();
+    //var mobo = BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png', messageHistory: messageHistory); 
     setState(() {
-      bots = [mobo];
+      bots = botsAux;
       isLoading = false;
+      print("teste");
+      print(bots.first.toString());
     });
   }
 
@@ -70,11 +74,11 @@ class _RecentsChatsState extends State<RecentsChats> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          CircleAvatar(
+                          bot.pictureUrl != null ? CircleAvatar(
                             radius: 35.0,
                             backgroundColor: const Color(0xffe4e4e4),
                             backgroundImage: AssetImage(bot.pictureUrl),
-                          ),
+                          ) : Container(),
                           SizedBox(width: 10.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,14 +4,16 @@ import 'package:flutter_dialogflow/v2/dialogflow_v2.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:intl/intl.dart';
 import 'package:mobo/components/text_composer.dart';
+import 'package:mobo/models/bot_model.dart';
 import 'package:mobo/models/message_history_model.dart';
+import 'package:mobo/repository/bot_repository.dart';
 import 'package:mobo/repository/message_history_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatefulWidget {
 
   final String user;
-
+  
   ChatScreen({this.user});
 
   @override
@@ -21,12 +23,40 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
 
   bool isLoading = true;
+  bool unread = true;
 
+  BotModel botModel = BotModel.empty();
+
+  @override
+  void initState(){
+    super.initState();
+    _getBot();
+  }
+
+  void _getBot() async{
+    var bot = await BotRepository().getBotById(1);
+    setState((){
+      isLoading = false;
+      botModel = bot;
+    });
+  }
+  
   Future<MessageHistoryModel> _persistMessage({String text, int fromUser}) async{
     MessageHistoryModel model = MessageHistoryModel(content: text, fromUser: fromUser,favorite: 0);
     model.registerHour = DateFormat.Hm().format(new DateTime.now()).toString();
     model = await MessageHistoryRepository().saveMessageHistory(model);
     return model;
+  }
+
+  void _updateBot(int i) async{
+    setState((){
+      isLoading = true;
+    });
+    botModel.favorite = i;
+    await BotRepository().updateBot(botModel);
+    setState((){
+      isLoading = false;
+    });
   }
 
   _buildMessage(MessageHistoryModel model){
@@ -109,6 +139,16 @@ class _ChatScreenState extends State<ChatScreen> {
     setState((){isLoading = false;});
   }
 
+  void _changeBotFavoriteStatus() async{
+    setState((){isLoading = true;});
+    int newStatus = 1;
+    if(botModel.favorite == 1){
+      newStatus = 0;
+    }    
+    _updateBot(newStatus);
+    setState((){isLoading = true;});
+  }
+
   Future<void> _dialogFlowRequest({@required String query}) async {
     AuthGoogle authGoogle = await AuthGoogle(fileJson: "assets/credentials.json").build();
     Dialogflow dialogflow = Dialogflow(authGoogle: authGoogle, language: "pt-BR");
@@ -139,7 +179,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
   
-   return Scaffold(
+   return isLoading ? Center(child: CircularProgressIndicatorEx()) : 
+      Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: IconButton(
@@ -150,9 +191,25 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.of(context).pushNamed('/');
           }, 
         ),
+        actions: <Widget>[
+          (botModel.favorite == 1) ?
+            IconButton(
+              icon : Icon(Icons.star),
+              iconSize: 30.0,
+              onPressed:(){
+                _changeBotFavoriteStatus();
+              },) : 
+            IconButton(
+              icon : Icon(Icons.star_border),
+              iconSize: 30.0,
+              onPressed:(){
+                _changeBotFavoriteStatus();
+              } 
+            ),
+          ],
         centerTitle: true,
         title:Text(
-          'Mobo',
+          botModel.name,
           style: TextStyle(
             fontSize: 22.0,
             fontWeight: FontWeight.bold,
@@ -204,58 +261,6 @@ class _ChatScreenState extends State<ChatScreen> {
             ],
           ),
       ),
-       
-      /*Column(
-        children: <Widget>[
-          Expanded(
-            child: FutureBuilder<List<MessageHistoryModel>>(
-              future: MessageHistoryRepository().getAllMessageHistory(),
-              builder: (BuildContext context, AsyncSnapshot<List<MessageHistoryModel>> snapshot){
-                if(snapshot.hasData){
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index){
-                      MessageHistoryModel message = snapshot.data[index];
-                      Color colorBackground = Colors.green[900];
-                      Color colorText = Colors.white;
-                      TextAlign textAlign = TextAlign.end;
-                      print(message.fromUser);
-                      if(message.fromUser == 1){
-                        colorBackground = Color(0xFFFFEFEE);
-                        colorText = Colors.black;
-                        textAlign = TextAlign.start;
-                      }
-                      return Container(
-                        margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
-                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                        decoration: BoxDecoration(
-                          color: colorBackground,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20.0),
-                            bottomRight: Radius.circular(20.0)
-                          ),
-                        ),
-                        child: Text(message.content,
-                          style: TextStyle(
-                                color: colorText, 
-                                fontSize: 19.0,
-                                fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: textAlign,
-                        ),
-                      );
-                    },
-                    reverse: false,
-                  );
-                } else {
-                  return Center (child: CircularProgressIndicator());
-                }
-              }
-            ), 
-          ),
-          TextComposer(_sendMessage),
-        ],
-      ),*/
     );
   }
 }
