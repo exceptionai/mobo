@@ -37,13 +37,17 @@ class DbConnection {
       """CREATE TABLE ${MessageHistoryModel.tableName}(
           ${MessageHistoryModel.idColumn} INTEGER PRIMARY KEY,
           ${MessageHistoryModel.contentColumn} TEXT,
-          ${MessageHistoryModel.fromUserColumn} INTEGER);""",
+          ${MessageHistoryModel.fromUserColumn} INTEGER,
+          ${MessageHistoryModel.favoriteColumn} INTEGER,
+          ${MessageHistoryModel.registerHourColumn} TEXT);""",
     ];
 
     List<String> inserts = [
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');"""
+        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
+    
+      
     ];
     
     return await openDatabase(path, version: 1, onConfigure: _onConfigure, onCreate: (Database db, int newerVersion) async {
