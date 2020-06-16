@@ -15,12 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Theme.of(context).primaryColor,
       drawer: DrawerFiapEx(route: '/',),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: (){},
-          icon:Icon(Icons.menu),
-          iconSize: 30.0,
-          color: Colors.white,
-        ),
         title: Text(
           'Conversas',
           style: TextStyle(
@@ -29,9 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         elevation: 0.0,
-        actions: <Widget>[
-          
-        ],
       ),
       body: Column(
         children: <Widget>[
