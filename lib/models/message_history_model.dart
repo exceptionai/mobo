@@ -11,7 +11,7 @@ class MessageHistoryModel{
   static final String contentColumn = "content";
   static final String fromUserColumn = "fromUser";
 
-  MessageHistoryModel();
+  MessageHistoryModel({this.id, @required this.content, @required this.fromUser});
 
   MessageHistoryModel.withIdName(
     {@required this.id,

@@ -90,8 +90,10 @@ class _FavoriteBotsState extends State<FavoriteBots> {
               itemCount: bots.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                  onTap: (){
-                    Navigator.of(context).pushNamed('/chat');
+                  onTap: () async{
+                    await Navigator.of(context).pushNamed('/chat');
+
+                  setState(() {getBots(); });
                   },
                                   child: Padding(
                     padding: EdgeInsets.all(10.0),

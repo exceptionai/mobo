@@ -43,11 +43,7 @@ class DbConnection {
     List<String> inserts = [
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
-      """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn}) VALUES (1,'Olá,tudo bem?',1);""",
-        """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn}) VALUES (2,'Tudo bem, e como você?',0);""",
+        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');"""
     ];
     
     return await openDatabase(path, version: 1, onConfigure: _onConfigure, onCreate: (Database db, int newerVersion) async {

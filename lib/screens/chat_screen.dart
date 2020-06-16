@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dialogflow/v2/auth_google.dart';
+import 'package:flutter_dialogflow/v2/dialogflow_v2.dart';
+import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:mobo/components/text_composer.dart';
 import 'package:mobo/models/message_history_model.dart';
 import 'package:mobo/repository/message_history_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -10,15 +14,36 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
 
-  void _sendMessage(String text) async{
-    MessageHistoryModel model = MessageHistoryModel();
-    model.content = text;
-    model.fromUser = 1;
+  bool isLoading = true;
+
+  Future<MessageHistoryModel> _persistMessage({String text, int fromUser}) async{
+
+    MessageHistoryModel model = MessageHistoryModel(content: text, fromUser: 1);
     model = await MessageHistoryRepository().saveMessageHistory(model);
-    setState(() {
-      
-    });
-    print(model.toString());
+    return model;
+  }
+
+  void _sendMessage(String text) async{
+    setState((){isLoading = true;});
+    await _persistMessage(text:text, fromUser: 1);
+    await _dialogFlowRequest(query: text); 
+    setState((){isLoading = false;});
+  }
+
+  Future<void> _dialogFlowRequest({@required String query}) async {
+    AuthGoogle authGoogle = await AuthGoogle(fileJson: "assets/credentials.json").build();
+    Dialogflow dialogflow = Dialogflow(authGoogle: authGoogle, language: "pt-BR");
+    AIResponse response = await dialogflow.detectIntent(query);
+   
+    List<Map<String, dynamic>> messages = response.getListMessage().cast<Map<String, dynamic>>();
+    if( messages != null && messages.isNotEmpty){
+      List<String> messageList = messages.first["text"]["text"].cast<String>();
+      for(var message in messageList){
+       await _persistMessage(fromUser: 0, text: message);
+      }
+    }else{
+      await _persistMessage(fromUser: 0, text: response.getMessage());
+    }
   }
   
   @override
@@ -37,7 +62,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
    return Scaffold(
       appBar: AppBar(
-        title:Text('Olá'),
+        title:Text('Mobo'),
         elevation: 0,
       ),
       body: Column(
@@ -52,7 +77,12 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemBuilder: (BuildContext context, int index){
                       MessageHistoryModel message = snapshot.data[index];
                       return ListTile(
-                        title: Text(message.content),
+                        title: message.content.startsWith("http") ? InkWell(
+                          child: Text(message.content,style: TextStyle(color: Colors.lightBlue),),
+                          onTap: (){
+                            launch(message.content);
+                          },
+                        ) : Text(message.content == null ? "Não entendi" : message.content),
                       );
                     },
                     reverse: false,

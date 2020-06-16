@@ -44,13 +44,16 @@ class _RecentsChatsState extends State<RecentsChats> {
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
           ),
-          child: isLoading ? CircularProgressIndicatorEx() : ListView.builder(
+          child: isLoading ? CircularProgressIndicatorEx() :
+          bots.length == 0 ? Container() :  ListView.builder(
             itemCount: bots.length,
+            
             itemBuilder: (BuildContext context, int index) {
               final bot = bots[index];
               return InkWell(
-                onTap: (){
-                  Navigator.of(context).pushNamed('/chat');
+                onTap: () async{
+                  await Navigator.of(context).pushNamed('/chat');
+                  setState(() {getBots(); });
                 },
                               child: Container(
                   margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
@@ -88,10 +91,11 @@ class _RecentsChatsState extends State<RecentsChats> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: Text(
-                                  bot.messageHistory.last.content,
+                                  bot.messageHistory.length == 0 || bot.messageHistory.last.content == null  ? "Nenhuma mensagem..." : bot.messageHistory.last.content,
                                   style: TextStyle(
                                     color: Colors.blueGrey, 
                                     fontSize: 15.0,
+                                    fontStyle: bot.messageHistory.length == 0 || bot.messageHistory.last.content == null  ? FontStyle.italic : FontStyle.normal,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   overflow: TextOverflow.ellipsis,

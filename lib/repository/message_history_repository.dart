@@ -16,8 +16,7 @@ class MessageHistoryRepository{
     List<MessageHistoryModel> listModel = List();
     for (Map m in listMap){
       listModel.add(MessageHistoryModel.fromMap(m));
-    }
-    await Future.delayed(Duration(milliseconds: 500));
+    };
     return listModel;
   }
 
