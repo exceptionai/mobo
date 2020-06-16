@@ -65,6 +65,19 @@ class _ChatScreenState extends State<ChatScreen> {
               SizedBox(
                 height: 8.0,
               ),
+              model.content.startsWith("http") ?
+              InkWell(
+                onTap: (){
+                  launch(model.content);
+                },
+                child: Text(model.content,
+                  style:TextStyle(
+                    color: Colors.lightBlue,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ) :
               Text(model.content,
                 style:TextStyle(
                   color: Colors.blueGrey,
@@ -129,13 +142,12 @@ class _ChatScreenState extends State<ChatScreen> {
    return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        title:Center(
-          child: Text(
-            'Mobo',
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-            ),
+        centerTitle: true,
+        title:Text(
+          'Mobo',
+          style: TextStyle(
+            fontSize: 22.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
         
