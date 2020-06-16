@@ -46,7 +46,14 @@ class DbConnection {
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
         ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
-    
+      """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
+        ${RoommateModel.nameColumn}) VALUES (2,'Renaninho');""",
+      """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
+        ${RoommateModel.nameColumn}) VALUES (3,'Gustavo exemplo de ser humano');""",
+      """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
+        ${RoommateModel.nameColumn}) VALUES (4,'Alissenior');""",
+      """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
+        ${RoommateModel.nameColumn}) VALUES (5,'Nessa Git Engeneer');""",
       
     ];
     

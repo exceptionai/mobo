@@ -3,6 +3,7 @@ import 'package:mobo/screens/chat_screen.dart';
 import 'package:mobo/screens/home_screen.dart';
 import 'package:mobo/screens/login_screen.dart';
 import 'package:mobo/screens/onboarding_screen.dart';
+import 'package:mobo/screens/roommate_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,7 +44,11 @@ class MyApp extends StatelessWidget {
               builder: (_) => ChatScreen(),
               settings: settings,
             );
-
+          case '/roommate':
+            return  MaterialPageRoute(
+              builder: (_) => RoommateScreen(),
+              settings: settings,
+            );
           default: 
             return MaterialPageRoute(
               builder: (_) => LoginScreen(),

@@ -11,7 +11,7 @@ class RoommateRepository{
   final String idColumn = RoommateModel.idColumn;
   final String nameColumn = RoommateModel.nameColumn;
 
-  Future<List> getAllRoommatees() async {
+  Future<List<RoommateModel>> getAllRoommatees() async {
     Database db = await dbConnection.db;
     List listMap = await db.rawQuery("SELECT * FROM $table;");
     List<RoommateModel> listModel = List();
