@@ -15,7 +15,7 @@ class MessageHistoryModel{
   static final String favoriteColumn = "favorite";
   static final String registerHourColumn = "registerHour";
 
-  MessageHistoryModel();
+  MessageHistoryModel({this.id, @required this.content, @required this.fromUser, this.favorite});
 
   MessageHistoryModel.withIdName(
     {@required this.id,

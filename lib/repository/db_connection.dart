@@ -46,22 +46,7 @@ class DbConnection {
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
         ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
-      """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn},
-        ${MessageHistoryModel.favoriteColumn},${MessageHistoryModel.registerHourColumn}) 
-        VALUES (1,'Olá,tudo bem?',1,0,'17:32');""",
-      """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn},
-        ${MessageHistoryModel.favoriteColumn},${MessageHistoryModel.registerHourColumn}) 
-        VALUES (2,'To Sussa e tu meu irmãozito?',0,1,'17:33');""",
-      """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn},
-        ${MessageHistoryModel.favoriteColumn},${MessageHistoryModel.registerHourColumn}) 
-        VALUES (3,'TO SUAVASSO MANINHO',1,0,'17:33');""",
-       """INSERT INTO ${MessageHistoryModel.tableName} (${MessageHistoryModel.idColumn},
-        ${MessageHistoryModel.contentColumn},${MessageHistoryModel.fromUserColumn},
-        ${MessageHistoryModel.favoriteColumn},${MessageHistoryModel.registerHourColumn}) 
-        VALUES (4,'AHHHHHH MANO, ENTÃO É NOIS CATCHORRO',0,1,'17:33');""",
+    
       
     ];
     

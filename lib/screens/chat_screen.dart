@@ -1,11 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_dialogflow/v2/auth_google.dart';
+import 'package:flutter_dialogflow/v2/dialogflow_v2.dart';
+import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:intl/intl.dart';
 import 'package:mobo/components/text_composer.dart';
 import 'package:mobo/models/message_history_model.dart';
-import 'package:mobo/repository/db_connection.dart';
 import 'package:mobo/repository/message_history_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatefulWidget {
 
@@ -18,6 +19,15 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  bool isLoading = true;
+
+  Future<MessageHistoryModel> _persistMessage({String text, int fromUser}) async{
+    MessageHistoryModel model = MessageHistoryModel(content: text, fromUser: fromUser,favorite: 0);
+    model.registerHour = DateFormat.Hm().format(new DateTime.now()).toString();
+    model = await MessageHistoryRepository().saveMessageHistory(model);
+    return model;
+  }
 
   _buildMessage(MessageHistoryModel model){
     bool isMe = (model.fromUser == 1);
@@ -38,13 +48,13 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
           decoration: BoxDecoration(
-            color: isMe ? Theme.of(context).accentColor : Colors.green[50],
+            color: isMe ? Color(0xFFFEF9EB) : Colors.green[50],
             borderRadius: BorderRadius.all(Radius.circular(15.0),),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(model.registerHour,
+              Text(model.registerHour != null ? model.registerHour : ' ' ,
                 style:TextStyle(
                   color: Colors.blueGrey[400],
                   fontSize: 14.0,
@@ -77,17 +87,29 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+ 
+
   void _sendMessage(String text) async{
-    MessageHistoryModel model = MessageHistoryModel();
-    model.content = text;
-    model.fromUser = 1;
-    model.favorite = 0;
-    model.registerHour = DateFormat.Hm().format(new DateTime.now()).toString();
-    model = await MessageHistoryRepository().saveMessageHistory(model);
-    setState(() {
-      
-    });
-    print(model.toString());
+    setState((){isLoading = true;});
+    await _persistMessage(text:text, fromUser: 1);
+    await _dialogFlowRequest(query: text); 
+    setState((){isLoading = false;});
+  }
+
+  Future<void> _dialogFlowRequest({@required String query}) async {
+    AuthGoogle authGoogle = await AuthGoogle(fileJson: "assets/credentials.json").build();
+    Dialogflow dialogflow = Dialogflow(authGoogle: authGoogle, language: "pt-BR");
+    AIResponse response = await dialogflow.detectIntent(query);
+   
+    List<Map<String, dynamic>> messages = response.getListMessage().cast<Map<String, dynamic>>();
+    if( messages != null && messages.isNotEmpty){
+      List<String> messageList = messages.first["text"]["text"].cast<String>();
+      for(var message in messageList){
+       await _persistMessage(fromUser: 0, text: message);
+      }
+    }else{
+      await _persistMessage(fromUser: 0, text: response.getMessage());
+    }
   }
 
   void _changeFavoriteStatus(MessageHistoryModel model) async{
@@ -109,20 +131,14 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         title:Center(
           child: Text(
-            widget.user,
+            'Mobo',
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.more_horiz),
-            iconSize: 30.0,
-            onPressed: (){},
-          ),
-        ],
+        
         elevation: 0.0,
       ),
       body:GestureDetector(

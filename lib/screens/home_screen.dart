@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobo/widgets/category_selector.dart';
-import 'package:mobo/widgets/favorite_bots.dart';
-import 'package:mobo/widgets/recents_chats.dart';
+import 'package:mobo/components/drawer_fiap_ex.dart';
+import 'package:mobo/components/favorite_bots.dart';
+import 'package:mobo/components/recents_chats.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,6 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
+      drawer: DrawerFiapEx(route: '/',),
       appBar: AppBar(
         leading: IconButton(
           onPressed: (){},
@@ -29,27 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         elevation: 0.0,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            iconSize: 30.0,
-            color: Colors.white,
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            iconSize: 30.0,
-            color: Colors.white,
-            onPressed: () {},
-          ),
+          
         ],
       ),
       body: Column(
         children: <Widget>[
-          CategorySelector(),
+          SizedBox(height: 30,),
+          // CategorySelector(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
+            color: const Color(0xfff2f9fb),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40.0),
                   topRight: Radius.circular(40.0),

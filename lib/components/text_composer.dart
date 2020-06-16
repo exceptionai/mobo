@@ -31,14 +31,7 @@ class _TextComposerState extends State<TextComposer> {
       color: Colors.blueGrey[50],
       child: Row(
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo_camera),
-            iconSize: 25.0,
-            onPressed: (){
-              
-            },
-            color: Colors.blueGrey,
-          ),
+          SizedBox(width: 15  ),
           Expanded(
             child: TextField(
               controller: _controller,
