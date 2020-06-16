@@ -150,6 +150,32 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
               SizedBox(
                 height: 30,
               ),
+              InkWell(
+                child: Row(
+                  children: <Widget>[
+                    widget.route == '/roommate' ? 
+                    Icon(
+                      Icons.arrow_right,
+                      color: Theme.of(context).primaryColor,
+                    ) : Padding(padding: EdgeInsets.only(left:25),),
+                    
+                    Container(
+                      
+                      child: Text(
+                        'COMPANHEIROS',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: 'GothamHTF',
+                            fontWeight: FontWeight.bold,
+                            color: _routeColor('/roommate',context)),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: (){
+                  Navigator.of(context).pushNamed('/roommate');
+                },
+              ),
             ],
           ),
         ],

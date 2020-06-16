@@ -73,6 +73,14 @@ class _RoommateScreenState extends State<RoommateScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon:Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+          iconSize: 30.0,
+          onPressed:(){
+            Navigator.of(context).pushNamed('/');
+          }, 
+        ),
         title: Text(
           'Amigos',
           style: TextStyle(
