@@ -176,6 +176,35 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                   Navigator.of(context).pushNamed('/roommate');
                 },
               ),
+              SizedBox(
+                height: 30,
+              ),
+              InkWell(
+                child: Row(
+                  children: <Widget>[
+                    widget.route == '/random' ? 
+                    Icon(
+                      Icons.arrow_right,
+                      color: Theme.of(context).primaryColor,
+                    ) : Padding(padding: EdgeInsets.only(left:25),),
+                    
+                    Container(
+                      
+                      child: Text(
+                        'SORTEAR',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: 'GothamHTF',
+                            fontWeight: FontWeight.bold,
+                            color: _routeColor('/random',context)),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: (){
+                  Navigator.of(context).pushNamed('/random');
+                },
+              ),
             ],
           ),
         ],
