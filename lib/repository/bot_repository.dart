@@ -22,6 +22,19 @@ class BotRepository{
     return listModel;
   }
 
+   Future<List<BotModel>> getBotsLiked() async {
+    Database db = await dbConnection.db;
+    List<Map> botsMap = await db.query(table,
+      where: "$favoriteColumn = ?",
+      whereArgs: [1]);
+    if(botsMap.length > 0){
+      List<BotModel> bots = botsMap.map((bot) => BotModel.fromMap(bot)).toList();
+      return bots;
+    } else {
+      return List();
+    }
+  }
+
   Future<int> updateBot(BotModel model) async {
     Database db = await dbConnection.db;
     return await db.update(table,
@@ -33,7 +46,6 @@ class BotRepository{
    Future<BotModel> getBotById(int id) async {
     Database db = await dbConnection.db;
     List<Map> maps = await db.query(table,
-      columns: [idColumn, nameColumn],
       where: "$idColumn = ?",
       whereArgs: [id]);
     if(maps.length > 0){

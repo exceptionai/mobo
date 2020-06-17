@@ -27,8 +27,6 @@ class _RecentsChatsState extends State<RecentsChats> {
     setState(() {
       bots = botsAux;
       isLoading = false;
-      print("teste");
-      print(bots.first.toString());
     });
   }
 

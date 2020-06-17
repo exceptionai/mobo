@@ -179,8 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
   
-   return isLoading ? Center(child: CircularProgressIndicatorEx()) : 
-      Scaffold(
+   return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: IconButton(
@@ -209,7 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         centerTitle: true,
         title:Text(
-          botModel.name,
+          botModel?.name ?? "",
           style: TextStyle(
             fontSize: 22.0,
             fontWeight: FontWeight.bold,
@@ -218,7 +217,7 @@ class _ChatScreenState extends State<ChatScreen> {
         
         elevation: 0.0,
       ),
-      body:GestureDetector(
+      body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(
             children: <Widget>[
@@ -234,7 +233,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child:FutureBuilder<List<MessageHistoryModel>>(
                     future: MessageHistoryRepository().getAllMessageHistory(),
                       builder: (BuildContext context, AsyncSnapshot<List<MessageHistoryModel>> snapshot){
-                        if(snapshot.hasData){
+                        if(snapshot.hasData && !isLoading){
                           return ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(30.0),
