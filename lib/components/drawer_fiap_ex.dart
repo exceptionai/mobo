@@ -22,7 +22,9 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
     return Drawer(
       child: Stack(
         children: <Widget>[
-          Container(color: Theme.of(context).accentColor),
+          Container( 
+            color: Colors.white,
+            ),
           _drawerContent(context),
         ],
       ),
@@ -31,6 +33,7 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
 
   Widget _drawerContent(BuildContext context) {
     return SafeArea(
+      
       child: Stack(
         children: [
           ListView(
@@ -68,7 +71,7 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                     child: Icon(
                           Icons.exit_to_app,
                           size: 30,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.blueGrey[700],//Theme.of(context).primaryColor,
                         ),
                   ),
                 ],),
@@ -82,8 +85,8 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                   style: TextStyle(
                       fontSize: 25.0,
                       fontFamily: 'GothamHTF',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blueGrey[400]),
                 )
               ]),
               SizedBox(
@@ -109,8 +112,8 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                   style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: 'GothamHTF',
-                      fontWeight: FontWeight.bold,
-                      color: _routeColor('/',context)),
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).primaryColor),
                 ),
                                 ],
                               ),
@@ -137,8 +140,8 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontFamily: 'GothamHTF',
-                            fontWeight: FontWeight.bold,
-                            color: _routeColor('/chat',context)),
+                            fontWeight: FontWeight.w400,
+                            color:Colors.blueGrey[400]),
                       ),
                     ),
                   ],
@@ -166,8 +169,8 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontFamily: 'GothamHTF',
-                            fontWeight: FontWeight.bold,
-                            color: _routeColor('/roommate',context)),
+                            fontWeight: FontWeight.w400,
+                            color: Colors.blueGrey[400]),
                       ),
                     ),
                   ],
@@ -195,8 +198,8 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                         style: TextStyle(
                             fontSize: 18.0,
                             fontFamily: 'GothamHTF',
-                            fontWeight: FontWeight.bold,
-                            color: _routeColor('/random',context)),
+                            fontWeight: FontWeight.w400,
+                            color:Colors.blueGrey[400]),
                       ),
                     ),
                   ],

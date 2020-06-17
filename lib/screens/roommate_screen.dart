@@ -22,35 +22,39 @@ class _RoommateScreenState extends State<RoommateScreen> {
   Widget _buildCard(RoommateModel model,int index){
     
     return Container(
-      //width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.only(
-          top: 8.0, 
+          top: 20.0, 
           bottom: 8.0,
-          left: 8.0,
-          right: 8.0
+          left: 40.0,
+          right: 40.0
         ),
       padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
       decoration: BoxDecoration(
-        color:Colors.grey[50],
+        color:Colors.white,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40.0),
+            topRight: Radius.circular(40.0),
+            bottomRight: Radius.circular(40.0),
+            bottomLeft: Radius.circular(40.0),
+        
+         ),
         ),
       child:Row(
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(left:20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(15.0),),
-            ),
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.4,
             child: Text(model.name,
               style:TextStyle(
-                color: Colors.blueGrey[800],
-                fontSize: 23.0,
-                fontWeight: FontWeight.w500,
+                color: Colors.blueGrey[400],
+                fontSize: 20.0,
+                fontWeight: FontWeight.w400,
               )
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left:10.0),
+            padding: const EdgeInsets.only(left:20.0),
             child: IconButton(
               icon:Icon(Icons.delete_outline),
               iconSize: 40.0,
@@ -71,11 +75,11 @@ class _RoommateScreenState extends State<RoommateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,//Theme.of(context).primaryColor,
       appBar: AppBar(
         leading: IconButton(
           icon:Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           iconSize: 30.0,
           onPressed:(){
             Navigator.of(context).pushNamed('/');
@@ -84,11 +88,13 @@ class _RoommateScreenState extends State<RoommateScreen> {
         title: Text(
           'Amigos',
           style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
+            fontSize: 25.0,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[400],
           ),
         ),
         elevation: 0.0,
+        backgroundColor:Colors.white70,
       ),
       body:GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -97,6 +103,11 @@ class _RoommateScreenState extends State<RoommateScreen> {
             Expanded(
                 child: Container(
                   decoration: BoxDecoration(
+                     gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [Color(0xffc1fcd3),Color(0xff0ccda3) ]
+                    ),
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.0),

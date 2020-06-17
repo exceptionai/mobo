@@ -37,7 +37,11 @@ class _RecentsChatsState extends State<RecentsChats> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Color(0xffc1fcd3),Color(0xff0ccda3) ]),
+          //color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0),
             topRight: Radius.circular(40.0),
@@ -60,13 +64,16 @@ class _RecentsChatsState extends State<RecentsChats> {
                   setState(() {getBots(); });
                 },
                               child: Container(
-                  margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
+                  margin: EdgeInsets.only(top: 20.0, bottom: 5.0, right: 20.0, left: 20.0),
                   padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   decoration: BoxDecoration(
-                    color: Color(0xFFFFEFEE),
+                    color: Colors.blueGrey[50],
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0)
+                      topLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                      
                     ),
                   ),
                   child: Row(

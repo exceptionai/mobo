@@ -15,16 +15,14 @@ class _RandomScreenState extends State<RandomScreen> {
   @override
   bool isLoading = true;
   final random = Random();
-  //List<RoommateModel> list = List();
   RoommateModel chosenOne = RoommateModel();
 
   void _generateChosenOne() async{
-
     setState(() {
       isLoading = true;
     });
 
-    var aux = await RoommateRepository().getAllRoommatees();
+    var aux = await RoommateRepository().getAllRoommatees();                        ;
     var i = random.nextInt(aux.length);
     chosenOne = aux[i];
     setState(() {
@@ -34,11 +32,12 @@ class _RandomScreenState extends State<RandomScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon:Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           iconSize: 30.0,
           onPressed:(){
             Navigator.of(context).pushNamed('/');
@@ -49,7 +48,8 @@ class _RandomScreenState extends State<RandomScreen> {
           'Sorteio',
           style: TextStyle(
             fontSize: 22.0,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[400],
           ),
         ),
         
@@ -58,7 +58,11 @@ class _RandomScreenState extends State<RandomScreen> {
       body:Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Color(0xffc1fcd3),Color(0xff0ccda3) ]
+              ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),
                 topRight: Radius.circular(30.0),
@@ -67,30 +71,50 @@ class _RandomScreenState extends State<RandomScreen> {
             child: Column(
               children: <Widget>[
                 Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
                   margin: EdgeInsets.only(top:100),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15.0),),
                   ),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Center(
-                    child: Text("""Sorteie uma pessoa que mora com você para fazer aquela tarefinha indesejada, como por exemplo lavar a louça ou levar o lixo pra fora.""",
-                      style:TextStyle(
-                        color: Colors.blueGrey[800],
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.w500,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0),
+                        bottomLeft: Radius.circular(30.0),
                       ),
-                      textAlign: TextAlign.center,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.all(25),
+                            child: Text("""Sorteie uma pessoa que mora com você para fazer aquela tarefinha indesejada, como por exemplo lavar a louça ou levar o lixo pra fora.""",
+                              style:TextStyle(
+                                color: Colors.blueGrey[400],
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 30,),
+                         InkWell(
+                          onTap : (){
+                            _generateChosenOne();
+                          },
+                          child: InputButtonFiapEx("Que comesse os jogos!"),
+                        ),
+                        SizedBox(height: 30,),
+                      ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 100,
-                ),
-                InkWell(
-                  onTap : (){
-                    _generateChosenOne();
-                  },
-                  child: InputButtonFiapEx("Que comesse os jogos!"),
+                  height: 30,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -98,7 +122,11 @@ class _RandomScreenState extends State<RandomScreen> {
                  (chosenOne.name == null) ? Container() : 
                  (isLoading) ? CircularProgressIndicatorEx() :
                   Container(
-                  //width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(60.0),),
+                      color: Colors.white,
+                    ),   
+                    width: MediaQuery.of(context).size.width * 0.9,
                     margin: EdgeInsets.only(
                       top: 8.0, 
                       bottom: 8.0,
@@ -106,19 +134,11 @@ class _RandomScreenState extends State<RandomScreen> {
                       right: 8.0
                     ),
                   padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-                  decoration: BoxDecoration(
-                    color:Colors.grey[50],
-                    ),
                   child:Container(
-                    //margin: EdgeInsets.only(left:20),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0),),
-                    ),                    
                     child: Center(
-                      child: Text(chosenOne.name,
+                      child:Text(chosenOne.name,
                         style:TextStyle(
-                          color: Colors.blueGrey[800],
+                          color: Theme.of(context).primaryColor,
                           fontSize: 23.0,
                           fontWeight: FontWeight.w500,                         
                         ),
