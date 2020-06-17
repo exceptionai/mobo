@@ -191,7 +191,7 @@ class _DrawerFiapExState extends State<DrawerFiapEx> {
                     Container(
                       
                       child: Text(
-                        'SORTEAR',
+                        'SORTEAR COMPANHEIRO',
                         style: TextStyle(
                             fontSize: 18.0,
                             fontFamily: 'GothamHTF',
