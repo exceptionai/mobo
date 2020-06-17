@@ -59,73 +59,82 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  _buildMessage(MessageHistoryModel model){
+  _buildMessage(MessageHistoryModel model, bool isLast){
     bool isMe = (model.fromUser == 1);
     bool isLiked = (model.favorite == 1);
-    return Row(
+    return Column(
       children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width * 0.65,
-          margin: isMe ? EdgeInsets.only(
-            top: 8.0, 
-            bottom: 8.0,
-            left: 80.0,
-            right: 20.0
-          ) : EdgeInsets.only(
-            top: 8.0,
-            bottom: 8.0,
-            left: 20.0
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-          decoration: BoxDecoration(
-            color: isMe ? Color(0xFFFEF9EB) : Colors.green[50],
-            borderRadius: BorderRadius.all(Radius.circular(15.0),),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(model.registerHour != null ? model.registerHour : ' ' ,
-                style:TextStyle(
-                  color: Colors.blueGrey[400],
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              
+        Row(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width * 0.65,
+              margin: isMe ? EdgeInsets.only(
+                top: 8.0, 
+                bottom: 8.0,
+                left: 80.0,
+                right: 20.0
+              ) : EdgeInsets.only(
+                top: 8.0,
+                bottom: 8.0,
+                left: 20.0
               ),
-              SizedBox(
-                height: 8.0,
+              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+              decoration: BoxDecoration(
+                color: isMe ? Color(0xFFFEF9EB) : Colors.green[50],
+                borderRadius: BorderRadius.all(Radius.circular(15.0),),
               ),
-              model.content.startsWith("http") ?
-              InkWell(
-                onTap: (){
-                  launch(model.content);
-                },
-                child: Text(model.content,
-                  style:TextStyle(
-                    color: Colors.lightBlue,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(model.registerHour != null ? model.registerHour : ' ' ,
+                    style:TextStyle(
+                      color: Colors.blueGrey[400],
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  
                   ),
-                ),
-              ) :
-              Text(model.content,
-                style:TextStyle(
-                  color: Colors.blueGrey,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w600,
-                ),
+                  SizedBox(
+                    height: 8.0,
+                  ),
+                  model.content.startsWith("http") ?
+                  InkWell(
+                    onTap: (){
+                      launch(model.content);
+                    },
+                    child: Text(model.content,
+                      style:TextStyle(
+                        color: Colors.lightBlue,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ) :
+                  Text(model.content,
+                    style:TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            isMe ? SizedBox.shrink() : IconButton(
+              icon: isLiked ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+              iconSize: 30.0,
+              color: isLiked ? Colors.redAccent[100] : Colors.blueGrey,
+              onPressed: (){
+                _changeFavoriteStatus(model);
+              },
+            ),
+          ],
         ),
-        isMe ? SizedBox.shrink() : IconButton(
-          icon: isLiked ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
-          iconSize: 30.0,
-          color: isLiked ? Colors.redAccent[100] : Colors.blueGrey,
-          onPressed: (){
-            _changeFavoriteStatus(model);
-          },
-        ),
+
+        isLoading && isLast ? Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircularProgressIndicatorEx(),
+        ) : Container()
       ],
     );
   }
@@ -161,7 +170,7 @@ class _ChatScreenState extends State<ChatScreen> {
        await _persistMessage(fromUser: 0, text: message);
       }
     }else{
-      await _persistMessage(fromUser: 0, text: response.getMessage());
+      await _persistMessage(fromUser: 0, text: response.getMessage().isEmpty ? "Não entendi" : response.getMessage() );
     }
   }
 
@@ -244,7 +253,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (BuildContext context, int index){
                                   MessageHistoryModel messageModel = snapshot.data[index];
-                                  return _buildMessage(messageModel);
+                                  return _buildMessage(messageModel, index == snapshot.data.length -1 );
                                 },
                             ),
                           );
