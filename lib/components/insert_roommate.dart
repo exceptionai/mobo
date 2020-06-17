@@ -57,16 +57,8 @@ class _InsertRoommateState extends State<InsertRoommate> {
               ),
             ),
             IconButton(
-              icon: ClipOval(
-                child: Material(
-                color: Theme.of(context).primaryColor, // button color
-                  child: InkWell(
-                  splashColor: Colors.white, // inkwell color
-                    child: SizedBox(width: 56, height: 56, child: Icon(Icons.add)),
-                  
-                  ),
-                ),
-              ),
+              icon: Icon(Icons.add),
+              color: Theme.of(context).primaryColor,
               iconSize:45.0,
               onPressed: _isComposing ? () async{
                 await widget._saveRoommate(_controller.text);
