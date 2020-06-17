@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:mobo/animations/login_animation.dart';
 import 'package:mobo/components/form_container_fiap_ex.dart';
-import 'package:mobo/components/sign_in_fiap_ex.dart';
+import 'package:mobo/components/input_button_in_fiap_ex.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -100,7 +100,7 @@ class LoginScreenState extends State<LoginScreen>
                                           });
                                           _playAnimation();
                                         },
-                                        child: SignInFiapEx()),
+                                        child: InputButtonFiapEx("Entrar")),
                                   )
                                 : LoginAnimation(
                                     buttonController:

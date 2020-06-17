@@ -233,7 +233,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child:FutureBuilder<List<MessageHistoryModel>>(
                     future: MessageHistoryRepository().getAllMessageHistory(),
                       builder: (BuildContext context, AsyncSnapshot<List<MessageHistoryModel>> snapshot){
-                        if(snapshot.hasData && !isLoading){
+                        if(snapshot.hasData){
                           return ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(30.0),
@@ -249,7 +249,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
                           );
                         }else {
-                          return Center (child: CircularProgressIndicator());
+                          return Center (child: CircularProgressIndicatorEx());
                         }
                       }
                   ),      

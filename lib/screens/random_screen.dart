@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
+import 'package:mobo/components/input_button_in_fiap_ex.dart';
 import 'package:mobo/models/roommate_model.dart';
 import 'package:mobo/repository/roommate_repository.dart';
 
@@ -65,24 +66,34 @@ class _RandomScreenState extends State<RandomScreen> {
             ),
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                ),
-                FlatButton(
-                  onPressed: (){
-                      _generateChosenOne();
-                  },
-                  child: Text('Sortear',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w600,                
+                Container(
+                  margin: EdgeInsets.only(top:100),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0),),
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Center(
+                    child: Text("""Sorteie uma pessoa que mora com você para fazer aquela tarefinha indesejada, como por exemplo lavar a louça ou levar o lixo pra fora.""",
+                      style:TextStyle(
+                        color: Colors.blueGrey[800],
+                        fontSize: 23.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  color: Theme.of(context).primaryColor,
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: 100,
+                ),
+                InkWell(
+                  onTap : (){
+                    _generateChosenOne();
+                  },
+                  child: InputButtonFiapEx("Que comesse os jogos!"),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
                 ),
                  (chosenOne.name == null) ? Container() : 
                  (isLoading) ? CircularProgressIndicatorEx() :
@@ -98,25 +109,22 @@ class _RandomScreenState extends State<RandomScreen> {
                   decoration: BoxDecoration(
                     color:Colors.grey[50],
                     ),
-                  child:Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left:20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0),),
+                  child:Container(
+                    //margin: EdgeInsets.only(left:20),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0),),
+                    ),                    
+                    child: Center(
+                      child: Text(chosenOne.name,
+                        style:TextStyle(
+                          color: Colors.blueGrey[800],
+                          fontSize: 23.0,
+                          fontWeight: FontWeight.w500,                         
                         ),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: Center(
-                          child: Text(chosenOne.name,
-                            style:TextStyle(
-                              color: Colors.blueGrey[800],
-                              fontSize: 23.0,
-                              fontWeight: FontWeight.w500,
-                            )
-                          ),
-                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SignInFiapEx extends StatelessWidget {
-  SignInFiapEx();
+class InputButtonFiapEx extends StatelessWidget {
+  
+  final String text;
+  InputButtonFiapEx(this.text);
+
   @override
   Widget build(BuildContext context) {
     return (Container(
@@ -13,7 +16,7 @@ class SignInFiapEx extends StatelessWidget {
         borderRadius: BorderRadius.all(const Radius.circular(30.0)),
       ),
       child: Text(
-        "Entrar",
+        text,
         style: TextStyle(
           color: Colors.white,
           fontSize: 20.0,
