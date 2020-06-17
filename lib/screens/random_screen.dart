@@ -84,8 +84,8 @@ class _RandomScreenState extends State<RandomScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.2,
                 ),
+                 (chosenOne.name == null) ? Container() : 
                  (isLoading) ? CircularProgressIndicatorEx() :
-                  (chosenOne.name != null) ? 
                   Container(
                   //width: MediaQuery.of(context).size.width * 0.8,
                     margin: EdgeInsets.only(
@@ -118,8 +118,7 @@ class _RandomScreenState extends State<RandomScreen> {
                       ),
                     ],
                   ),
-                ) :
-                Container(),
+                ),
               ],
             )
           ),
