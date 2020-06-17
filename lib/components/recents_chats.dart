@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:mobo/models/bot_model.dart';
+import 'package:mobo/models/message_history_model.dart';
+import 'package:mobo/repository/bot_repository.dart';
 import 'package:mobo/repository/message_history_repository.dart';
 
 class RecentsChats extends StatefulWidget {
@@ -12,7 +14,7 @@ class _RecentsChatsState extends State<RecentsChats> {
   List<BotModel> bots = [];
   bool isLoading = true;
   bool unread = true;
-
+  List<MessageHistoryModel> messageList = [];
   @override
   void initState() {
     super.initState();
@@ -21,9 +23,11 @@ class _RecentsChatsState extends State<RecentsChats> {
 
   void getBots() async{
     var messageHistory = await MessageHistoryRepository().getAllMessageHistory();
-    var mobo = BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png', messageHistory: messageHistory); 
+    var botsAux = await BotRepository().getAllBots();
+    //var mobo = BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png', messageHistory: messageHistory); 
     setState(() {
-      bots = [mobo];
+      bots = botsAux;
+      messageList = messageHistory;
       isLoading = false;
     });
   }
@@ -70,11 +74,11 @@ class _RecentsChatsState extends State<RecentsChats> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          CircleAvatar(
+                          bot.pictureUrl != null ? CircleAvatar(
                             radius: 35.0,
                             backgroundColor: const Color(0xffe4e4e4),
                             backgroundImage: AssetImage(bot.pictureUrl),
-                          ),
+                          ) : Container(),
                           SizedBox(width: 10.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,11 +95,11 @@ class _RecentsChatsState extends State<RecentsChats> {
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: Text(
-                                  bot.messageHistory.length == 0 || bot.messageHistory.last.content == null  ? "Nenhuma mensagem..." : bot.messageHistory.last.content,
+                                  messageList.length == 0 || messageList.last.content == null  ? "Nenhuma mensagem..." : messageList.last.content,
                                   style: TextStyle(
                                     color: Colors.blueGrey, 
                                     fontSize: 15.0,
-                                    fontStyle: bot.messageHistory.length == 0 || bot.messageHistory.last.content == null  ? FontStyle.italic : FontStyle.normal,
+                                    fontStyle: messageList.length == 0 || messageList.last.content == null  ? FontStyle.italic : FontStyle.normal,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   overflow: TextOverflow.ellipsis,

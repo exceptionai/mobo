@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 
+import 'package:mobo/models/bot_model.dart';
 import 'package:mobo/models/message_history_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -40,6 +41,14 @@ class DbConnection {
           ${MessageHistoryModel.fromUserColumn} INTEGER,
           ${MessageHistoryModel.favoriteColumn} INTEGER,
           ${MessageHistoryModel.registerHourColumn} TEXT);""",
+
+      """CREATE TABLE ${BotModel.tableName} (
+          ${BotModel.idColumn} INTEGER PRIMARY KEY,
+          ${BotModel.nameColumn} TEXT,
+          ${BotModel.favoriteColumn} INTEGER,
+          ${BotModel.pictureUrlColumn} INTEGER,
+          ${BotModel.readyColumn} INTEGER
+      );""",
     ];
 
     List<String> inserts = [
@@ -54,6 +63,14 @@ class DbConnection {
         ${RoommateModel.nameColumn}) VALUES (4,'Alissenior');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
         ${RoommateModel.nameColumn}) VALUES (5,'Nessa Git Engeneer');""",
+      """INSERT INTO ${BotModel.tableName} (
+          ${BotModel.idColumn},
+          ${BotModel.nameColumn},
+          ${BotModel.favoriteColumn},
+          ${BotModel.pictureUrlColumn} ,
+          ${BotModel.readyColumn}) 
+          VALUES (1,'Mobo',0,'assets/images/bot(1).png',1);""",
+      
       
     ];
     

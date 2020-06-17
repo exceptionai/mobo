@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:mobo/models/bot_model.dart';
+import 'package:mobo/repository/bot_repository.dart';
 
 class FavoriteBots extends StatefulWidget {
   @override
@@ -18,10 +19,9 @@ class _FavoriteBotsState extends State<FavoriteBots> {
   }
 
   void getBots() async{
+    var bots = await BotRepository().getBotsLiked();
     setState(() {
-      bots = [ 
-        // BotModel(name: 'Mobo',pictureUrl: 'assets/images/bot(1).png' )
-      ];
+      this.bots = bots; 
       isLoading = false;
     });
   }
