@@ -3,6 +3,7 @@ import 'package:mobo/screens/chat_screen.dart';
 import 'package:mobo/screens/home_screen.dart';
 import 'package:mobo/screens/login_screen.dart';
 import 'package:mobo/screens/onboarding_screen.dart';
+import 'package:mobo/screens/random_screen.dart';
 import 'package:mobo/screens/roommate_screen.dart';
 
 void main() {
@@ -47,6 +48,11 @@ class MyApp extends StatelessWidget {
           case '/roommate':
             return  MaterialPageRoute(
               builder: (_) => RoommateScreen(),
+              settings: settings,
+            );
+          case '/random':
+            return  MaterialPageRoute(
+              builder: (_) => RandomScreen(),
               settings: settings,
             );
           default: 
