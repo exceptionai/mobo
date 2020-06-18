@@ -28,7 +28,7 @@ class _TextComposerState extends State<TextComposer> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       height: 60.0,
-      color: Colors.blueGrey[50],
+      color: Colors.white,
       child: Row(
         children: <Widget>[
           SizedBox(width: 15  ),
@@ -50,7 +50,7 @@ class _TextComposerState extends State<TextComposer> {
             ),
           ),
           IconButton(
-            icon:Icon(Icons.send),
+            icon:Icon(Icons.send,color: Theme.of(context).primaryColor,),
             iconSize: 25.0,
             onPressed: _isComposing ? (){
               widget.sendMessage(_controller.text);

@@ -80,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
               decoration: BoxDecoration(
-                color: isMe ? Color(0xFFFEF9EB) : Colors.green[50],
+                color: isMe ? Colors.white : Colors.green[50],
                 borderRadius: BorderRadius.all(Radius.circular(15.0),),
               ),
               child: Column(
@@ -189,11 +189,12 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
   
    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon:Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           iconSize: 30.0,
           onPressed:(){
             Navigator.of(context).pushNamed('/');
@@ -204,11 +205,13 @@ class _ChatScreenState extends State<ChatScreen> {
             IconButton(
               icon : Icon(Icons.star),
               iconSize: 30.0,
+              color: Colors.white,
               onPressed:(){
                 _changeBotFavoriteStatus();
               },) : 
             IconButton(
               icon : Icon(Icons.star_border),
+              color: Theme.of(context).primaryColor,
               iconSize: 30.0,
               onPressed:(){
                 _changeBotFavoriteStatus();
@@ -220,7 +223,8 @@ class _ChatScreenState extends State<ChatScreen> {
           botModel?.name ?? "",
           style: TextStyle(
             fontSize: 22.0,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w400,
+            color: Colors.blueGrey[400],
           ),
         ),
         
@@ -233,7 +237,11 @@ class _ChatScreenState extends State<ChatScreen> {
               Expanded(
                   child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [Color(0xffc1fcd3),Color(0xff0ccda3) ]
+                    ),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.0),
                       topRight: Radius.circular(30.0),

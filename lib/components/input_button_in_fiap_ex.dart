@@ -20,7 +20,7 @@ class InputButtonFiapEx extends StatelessWidget {
         style: TextStyle(
           color: Colors.white,
           fontSize: 20.0,
-          fontWeight: FontWeight.w300,
+          fontWeight: FontWeight.w500,
           letterSpacing: 0.3,
         ),
       ),
