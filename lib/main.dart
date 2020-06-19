@@ -41,9 +41,8 @@ class MyApp extends StatelessWidget {
               settings: settings
             );
           case '/chat':
-            return  MaterialPageRoute(
-              builder: (_) => ChatScreen(),
-              settings: settings,
+            return  SlideTransitionRoute(
+              route: ChatScreen()
             );
           case '/roommate':
             return  MaterialPageRoute(
@@ -79,3 +78,22 @@ class MyCustomRoute<T> extends MaterialPageRoute<T> {
     return new FadeTransition(opacity: animation, child: child);
   }
 }
+
+class SlideTransitionRoute extends PageRouteBuilder{
+  Widget route;
+  SlideTransitionRoute({@required this.route}) : super(
+    pageBuilder: (BuildContext context, Animation<double> animation,Animation<double> secondaryAnimation){
+      return route;
+    },
+    transitionDuration: Duration(milliseconds: 700),
+    transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child){
+      Animation<Offset> custom = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
+      return SlideTransition(
+        position: custom,
+        child: child,
+      );
+    }
+  );
+}
+
+

@@ -41,9 +41,9 @@ class MessageHistoryRepository{
       }
   }
 
-  Future<int> deleteMessageHistory(int id) async {
+  Future<int> deleteMessageHistory() async {
     Database db = await dbConnection.db;
-    return await db.delete(table, where: "$idColumn = ?", whereArgs: [id]);
+    return await db.delete(table);
   }
 
   Future<int> updateMessageHistory(MessageHistoryModel model) async {
