@@ -53,16 +53,14 @@ class DbConnection {
 
     List<String> inserts = [
 
-      /*"""INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (2,'Renaninho');""",
+        ${RoommateModel.nameColumn}) VALUES (1,'Flavio');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (3,'Gustavo exemplo de ser humano');""",
+        ${RoommateModel.nameColumn}) VALUES (2,'Rota');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (4,'Alissenior');""",
+        ${RoommateModel.nameColumn}) VALUES (3,'Mauro');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (5,'Nessa Git Engeneer');""",*/
+        ${RoommateModel.nameColumn}) VALUES (4,'Lucas');""",
       """INSERT INTO ${BotModel.tableName} (
           ${BotModel.idColumn},
           ${BotModel.nameColumn},
