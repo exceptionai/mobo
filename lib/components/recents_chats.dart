@@ -60,14 +60,15 @@ class _RecentsChatsState extends State<RecentsChats> {
               final bot = bots[index];
               return InkWell(
                 onTap: () async{
+                  (bot.ready == 0) ? null :
                   await Navigator.of(context).pushNamed('/chat');
                   setState(() {getBots(); });
                 },
-                              child: Container(
+                child: Container(
                   margin: EdgeInsets.only(top: 20.0, bottom: 5.0, right: 20.0, left: 20.0),
                   padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[50],
+                    color: (bot.ready != 0) ? Colors.blueGrey[50] : Colors.blueGrey[100],
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20.0),
                       topLeft: Radius.circular(20.0),
@@ -83,7 +84,7 @@ class _RecentsChatsState extends State<RecentsChats> {
                         children: <Widget>[
                           bot.pictureUrl != null ? CircleAvatar(
                             radius: 35.0,
-                            backgroundColor: const Color(0xffe4e4e4),
+                            backgroundColor: (bot.ready != 0) ? const Color(0xffe4e4e4) : Colors.blueGrey[100],
                             backgroundImage: AssetImage(bot.pictureUrl),
                           ) : Container(),
                           SizedBox(width: 10.0),
@@ -116,19 +117,6 @@ class _RecentsChatsState extends State<RecentsChats> {
                           ),
                         ],
                       ),
-                      // Column(
-                      //   children: <Widget>[
-                      //     Text(
-                      //       '03:15', // Quero dormir .zZ .zZ
-                      //       style: TextStyle(
-                      //         color: Colors.grey,
-                      //         fontSize: 15.0,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                          
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
