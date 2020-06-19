@@ -34,6 +34,11 @@ class _RecentsChatsState extends State<RecentsChats> {
 
   @override
   Widget build(BuildContext context) {
+    final snackBar = SnackBar(content: Text(
+      'Estará disponível em breve!',
+      style: TextStyle(color:Colors.white,fontWeight: FontWeight.w500,)),
+      backgroundColor: Colors.blueGrey[60],
+    );
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -60,7 +65,7 @@ class _RecentsChatsState extends State<RecentsChats> {
               final bot = bots[index];
               return InkWell(
                 onTap: () async{
-                  (bot.ready == 0) ? null :
+                  (bot.ready == 0) ? Scaffold.of(context).showSnackBar(snackBar) :
                   await Navigator.of(context).pushNamed('/chat');
                   setState(() {getBots(); });
                 },
