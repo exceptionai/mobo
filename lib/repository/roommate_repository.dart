@@ -18,7 +18,6 @@ class RoommateRepository{
     for(Map m in listMap){
       listModel.add(RoommateModel.fromMap(m));
     }
-    await Future.delayed(const Duration(seconds: 1));
     return listModel;
   }
 

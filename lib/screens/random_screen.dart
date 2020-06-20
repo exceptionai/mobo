@@ -22,7 +22,8 @@ class _RandomScreenState extends State<RandomScreen> {
       isLoading = true;
     });
 
-    var aux = await RoommateRepository().getAllRoommatees();                        ;
+    var aux = await RoommateRepository().getAllRoommatees();
+    await Future.delayed(const Duration(seconds: 1));                        ;
     var i = random.nextInt(aux.length);
     chosenOne = aux[i];
     setState(() {
