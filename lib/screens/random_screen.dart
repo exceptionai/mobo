@@ -13,7 +13,7 @@ class RandomScreen extends StatefulWidget {
 
 class _RandomScreenState extends State<RandomScreen> {
   @override
-  bool isLoading = true;
+  bool isLoading = false;
   final random = Random();
   RoommateModel chosenOne = RoommateModel();
 
@@ -119,8 +119,8 @@ class _RandomScreenState extends State<RandomScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),
-                 (chosenOne.name == null) ? Container() : 
-                 (isLoading) ? CircularProgressIndicatorEx() :
+                 (chosenOne.name == null && isLoading == false) ? Container() : 
+                 (isLoading) ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white),),) :
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(60.0),),
