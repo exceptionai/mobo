@@ -105,6 +105,7 @@ class _RandomScreenState extends State<RandomScreen> {
                         SizedBox(height: 30,),
                          InkWell(
                           onTap : (){
+                            if(isLoading == false)
                             _generateChosenOne();
                           },
                           child: InputButtonFiapEx("Que comesse os jogos!"),
