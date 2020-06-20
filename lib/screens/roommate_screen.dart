@@ -11,8 +11,6 @@ class RoommateScreen extends StatefulWidget {
 class _RoommateScreenState extends State<RoommateScreen> {
 
   void _saveRoommate (String text) async{
-    print("teste");
-    print(text);
     RoommateModel model = RoommateModel();
     model.name = text;
     model = await RoommateRepository().saveRoommate(model);
@@ -86,7 +84,7 @@ class _RoommateScreenState extends State<RoommateScreen> {
           }, 
         ),
         title: Text(
-          'Amigos',
+          'Companheiros',
           style: TextStyle(
             fontSize: 25.0,
             fontWeight: FontWeight.w400,
@@ -126,9 +124,13 @@ class _RoommateScreenState extends State<RoommateScreen> {
                               child: ListView.builder(
                                 padding: EdgeInsets.only(top: 15.0),
                                 itemCount: snapshot.data.length,
-                                itemBuilder: (BuildContext context, int index){
+                                itemBuilder:(BuildContext context, int index){
+                                  
                                   RoommateModel messageModel = snapshot.data[index];
-                                  return _buildCard(messageModel,index);
+                                  if(messageModel.id != 1){
+                                    return _buildCard(messageModel,index);
+                                  }
+                                  return SizedBox(width:0,height: 0,);
                                 },
                             ),
                           );

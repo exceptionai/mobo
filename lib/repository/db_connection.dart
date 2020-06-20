@@ -54,15 +54,13 @@ class DbConnection {
     List<String> inserts = [
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (1,'Lopinho');""",
+        ${RoommateModel.nameColumn}) VALUES (1,'Você');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (2,'Renaninho');""",
+        ${RoommateModel.nameColumn}) VALUES (2,'Rota');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (3,'Gustavo exemplo de ser humano');""",
+        ${RoommateModel.nameColumn}) VALUES (3,'Mauro');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (4,'Alissenior');""",
-      """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (5,'Nessa Git Engeneer');""",
+        ${RoommateModel.nameColumn}) VALUES (4,'Lucas');""",
       """INSERT INTO ${BotModel.tableName} (
           ${BotModel.idColumn},
           ${BotModel.nameColumn},
@@ -70,8 +68,34 @@ class DbConnection {
           ${BotModel.pictureUrlColumn} ,
           ${BotModel.readyColumn}) 
           VALUES (1,'Mobo',0,'assets/images/bot(1).png',1);""",
-      
-      
+       """INSERT INTO ${BotModel.tableName} (
+          ${BotModel.idColumn},
+          ${BotModel.nameColumn},
+          ${BotModel.favoriteColumn},
+          ${BotModel.pictureUrlColumn} ,
+          ${BotModel.readyColumn}) 
+          VALUES (2,'Evil Mobo(em breve)',0,'assets/images/evil-mobo.png',0);""",
+       """INSERT INTO ${BotModel.tableName} (
+          ${BotModel.idColumn},
+          ${BotModel.nameColumn},
+          ${BotModel.favoriteColumn},
+          ${BotModel.pictureUrlColumn} ,
+          ${BotModel.readyColumn}) 
+          VALUES (3,'Telemark(em breve)',0,'assets/images/telemark.png',0);""",
+        """INSERT INTO ${BotModel.tableName} (
+          ${BotModel.idColumn},
+          ${BotModel.nameColumn},
+          ${BotModel.favoriteColumn},
+          ${BotModel.pictureUrlColumn} ,
+          ${BotModel.readyColumn}) 
+          VALUES (4,'Junior(em breve)',0,'assets/images/junior.png',0);""",
+        """INSERT INTO ${BotModel.tableName} (
+          ${BotModel.idColumn},
+          ${BotModel.nameColumn},
+          ${BotModel.favoriteColumn},
+          ${BotModel.pictureUrlColumn} ,
+          ${BotModel.readyColumn}) 
+          VALUES (5,'Jeremias(em breve)',0,'assets/images/jeremias.png',0);""",
     ];
     
     return await openDatabase(path, version: 1, onConfigure: _onConfigure, onCreate: (Database db, int newerVersion) async {

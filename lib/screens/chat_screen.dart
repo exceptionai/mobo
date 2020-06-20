@@ -1,8 +1,12 @@
+import 'dart:async';
+
+import 'package:fade/fade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:flutter_dialogflow/v2/dialogflow_v2.dart';
 import 'package:mobo/components/circular_progress_indicator_ex.dart';
 import 'package:intl/intl.dart';
+import 'package:mobo/components/message_card_ex.dart';
 import 'package:mobo/components/text_composer.dart';
 import 'package:mobo/models/bot_model.dart';
 import 'package:mobo/models/message_history_model.dart';
@@ -24,13 +28,21 @@ class _ChatScreenState extends State<ChatScreen> {
 
   bool isLoading = true;
   bool unread = true;
-
   BotModel botModel = BotModel.empty();
+  List<MessageHistoryModel> messageHistory = []; 
 
   @override
   void initState(){
     super.initState();
     _getBot();
+    _getHistoryMessages();
+  }
+  
+  void _getHistoryMessages() async{
+    var messages = await MessageHistoryRepository().getAllMessageHistory();
+    setState(() {
+      messageHistory = messages;
+    });
   }
 
   void _getBot() async{
@@ -45,6 +57,12 @@ class _ChatScreenState extends State<ChatScreen> {
     MessageHistoryModel model = MessageHistoryModel(content: text, fromUser: fromUser,favorite: 0);
     model.registerHour = DateFormat.Hm().format(new DateTime.now()).toString();
     model = await MessageHistoryRepository().saveMessageHistory(model);
+    // var newList = [...messageHistory, model];
+    setState(() {
+      messageHistory.add(model);
+      
+    });
+    setState((){});
     return model;
   }
 
@@ -59,85 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  _buildMessage(MessageHistoryModel model, bool isLast){
-    bool isMe = (model.fromUser == 1);
-    bool isLiked = (model.favorite == 1);
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width * 0.65,
-              margin: isMe ? EdgeInsets.only(
-                top: 8.0, 
-                bottom: 8.0,
-                left: 80.0,
-                right: 20.0
-              ) : EdgeInsets.only(
-                top: 8.0,
-                bottom: 8.0,
-                left: 20.0
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
-              decoration: BoxDecoration(
-                color: isMe ? Colors.white : Colors.green[50],
-                borderRadius: BorderRadius.all(Radius.circular(15.0),),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(model.registerHour != null ? model.registerHour : ' ' ,
-                    style:TextStyle(
-                      color: Colors.blueGrey[400],
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  model.content.startsWith("http") ?
-                  InkWell(
-                    onTap: (){
-                      launch(model.content);
-                    },
-                    child: Text(model.content,
-                      style:TextStyle(
-                        color: Colors.lightBlue,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ) :
-                  Text(model.content,
-                    style:TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            isMe ? SizedBox.shrink() : IconButton(
-              icon: isLiked ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
-              iconSize: 30.0,
-              color: isLiked ? Colors.redAccent[100] : Colors.blueGrey,
-              onPressed: (){
-                _changeFavoriteStatus(model);
-              },
-            ),
-          ],
-        ),
 
-        isLoading && isLast ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircularProgressIndicatorEx(),
-        ) : Container()
-      ],
-    );
-  }
 
  
 
@@ -155,6 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
       newStatus = 0;
     }    
     _updateBot(newStatus);
+    // await MessageHistoryRepository().deleteMessageHistory();
     setState((){isLoading = true;});
   }
 
@@ -167,24 +108,13 @@ class _ChatScreenState extends State<ChatScreen> {
     if( messages != null && messages.isNotEmpty){
       List<String> messageList = messages.first["text"]["text"].cast<String>();
       for(var message in messageList){
-       await _persistMessage(fromUser: 0, text: message);
+       await _persistMessage(fromUser: 0, text: message == null || message.isEmpty ? "Não entendi" : message);
       }
     }else{
       await _persistMessage(fromUser: 0, text: response.getMessage().isEmpty ? "Não entendi" : response.getMessage() );
     }
   }
 
-  void _changeFavoriteStatus(MessageHistoryModel model) async{
-    if(model.favorite == 1){
-      model.favorite = 0;
-    }else{
-      model.favorite = 1;
-    }
-    await MessageHistoryRepository().updateMessageHistory(model);
-    setState(() {
-      
-    });
-  }  
   @override
   Widget build(BuildContext context) {
   
@@ -205,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
             IconButton(
               icon : Icon(Icons.star),
               iconSize: 30.0,
-              color: Colors.white,
+              color: Theme.of(context).primaryColor,
               onPressed:(){
                 _changeBotFavoriteStatus();
               },) : 
@@ -247,30 +177,21 @@ class _ChatScreenState extends State<ChatScreen> {
                       topRight: Radius.circular(30.0),
                     ),
                   ),
-                  child:FutureBuilder<List<MessageHistoryModel>>(
-                    future: MessageHistoryRepository().getAllMessageHistory(),
-                      builder: (BuildContext context, AsyncSnapshot<List<MessageHistoryModel>> snapshot){
-                        if(snapshot.hasData){
-                          return ClipRRect(
+                  child:ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(30.0),
                                 topRight: Radius.circular(30.0),
                               ),
                               child: ListView.builder(
                                 padding: EdgeInsets.only(top: 15.0),
-                                itemCount: snapshot.data.length,
+                                itemCount: _getMessagesAmount(),
                                 itemBuilder: (BuildContext context, int index){
-                                  MessageHistoryModel messageModel = snapshot.data[index];
-                                  return _buildMessage(messageModel, index == snapshot.data.length -1 );
+                                  MessageHistoryModel messageModel = messageHistory[index];
+                                  return MessageCardEx(model:messageModel,isLast: index == messageHistory.length -1, isLoading: isLoading, );
                                 },
                             ),
-                          );
-                        }else {
-                          return Center (child: CircularProgressIndicatorEx());
-                        }
-                      }
-                  ),      
-                ),
+                          ) 
+                  )
               ),
               
               TextComposer(_sendMessage),
@@ -278,5 +199,9 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
       ),
     );
+
   }
+    int _getMessagesAmount(){
+      return messageHistory.length;
+    }
 }

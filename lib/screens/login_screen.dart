@@ -7,6 +7,7 @@ import 'package:flutter/animation.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobo/animations/login_animation.dart';
 import 'package:mobo/components/form_container_fiap_ex.dart';
 import 'package:mobo/components/input_button_in_fiap_ex.dart';
@@ -19,11 +20,25 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  GoogleSignInAccount googleUser;
+
   AnimationController _loginButtonController;
   var animationStatus = 0;
   @override
   void initState() {
     super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) {
+        googleUser = account;
+    });
+
     _loginButtonController = AnimationController(
         duration: Duration(milliseconds: 3000), vsync: this);
   }
@@ -39,6 +54,15 @@ class LoginScreenState extends State<LoginScreen>
       await _loginButtonController.forward();
       await _loginButtonController.reverse();
     } on TickerCanceled {}
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+      print('sucess');
+    } catch (error) {
+      print(error);
+    }
   }
 
   @override
@@ -87,24 +111,46 @@ class LoginScreenState extends State<LoginScreen>
                                 
 
                                 FormContainerFiapEx(),
+                                SizedBox(height: 30,),
+
                                 Padding(padding: EdgeInsets.only(top:160.0,),)
                               ],
                             ),
                             animationStatus == 0
                                 ? Padding(
-                                    padding: const EdgeInsets.only(bottom: 50.0),
-                                    child: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            animationStatus = 1;
-                                          });
-                                          _playAnimation();
-                                        },
-                                        child: InputButtonFiapEx("Entrar")),
-                                  )
+                                  padding: const EdgeInsets.symmetric(horizontal:15.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              animationStatus = 1;
+                                            });
+                                            _playAnimation();
+                                          },
+                                          child: InputButtonFiapEx("Entrar")),
+                                        Container(
+                              margin: EdgeInsets.only(top: 30),
+                              child: InkWell(
+                                  onTap: ()async{
+
+                                    await _handleSignIn();
+
+                                              setState(() {
+                                                animationStatus = 1;
+                                              });
+                                    _playAnimation();
+                                  },
+                                  child: InputButtonFiapEx("Entrar com Google", color: Colors.white,leading: Image.network('https://cdn.freebiesupply.com/logos/thumbs/2x/google-icon-logo.png', width: 40,),),
+                              ),
+                            )
+                                    ],
+                                  ),
+                                )
                                 : LoginAnimation(
                                     buttonController:
                                         _loginButtonController.view),
+                            
                           ],
                         ),
                       ],
