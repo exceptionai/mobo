@@ -108,8 +108,7 @@ class _OnboardingMeState extends State<OnboardingMe> {
           decoration: bgBoxDecoration(widget.bgColor),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerRight,
@@ -135,13 +134,14 @@ class _OnboardingMeState extends State<OnboardingMe> {
                         screenData(widget.numOfPage, widget.screenContent),
                   ),
                 ),
-                Row(
+                Container(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
 
                   /// Page Indicator
                   children: pageIndicator(widget.numOfPage, currentPage,
                       widget.isPageIndicatorCircle),
-                ),
+                ),)
               ],
             ),
           ),
