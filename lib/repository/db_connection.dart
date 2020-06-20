@@ -54,7 +54,7 @@ class DbConnection {
     List<String> inserts = [
 
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
-        ${RoommateModel.nameColumn}) VALUES (1,'Flavio');""",
+        ${RoommateModel.nameColumn}) VALUES (1,'Você');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
         ${RoommateModel.nameColumn}) VALUES (2,'Rota');""",
       """INSERT INTO ${RoommateModel.tableName} (${RoommateModel.idColumn},
