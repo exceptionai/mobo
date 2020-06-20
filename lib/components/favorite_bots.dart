@@ -48,12 +48,6 @@ class _FavoriteBotsState extends State<FavoriteBots> {
                     letterSpacing: 1.0,
                   ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.help_outline),
-                  iconSize: 30.0,
-                  color: Color(0xff42282b), 
-                  onPressed: () {},
-                ),
               ],
             ),
           ),
