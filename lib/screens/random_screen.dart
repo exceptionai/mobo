@@ -108,7 +108,7 @@ class _RandomScreenState extends State<RandomScreen> {
                             if(isLoading == false)
                             _generateChosenOne();
                           },
-                          child: InputButtonFiapEx("Que comesse os jogos!"),
+                          child: InputButtonFiapEx("Que comecem os jogos!"),
                         ),
                         SizedBox(height: 30,),
                       ],
