@@ -69,7 +69,7 @@ class _RandomScreenState extends State<RandomScreen> {
                 topRight: Radius.circular(30.0),
               ),
             ),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
